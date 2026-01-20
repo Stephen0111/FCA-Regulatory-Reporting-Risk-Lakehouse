@@ -187,4 +187,4 @@ It reflects how **UK banks and financial institutions** actually design platform
 ---
 
 **Status:** Portfolio / Demonstration Project  
-**Audience:** Data Engineers, Analytics Engineers, Cloud Engineers, Financial Services Recruiters
+**Audience:** Data Engineers, Analytics Engineers, Cloud Engineers, Financial Services 
