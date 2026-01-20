@@ -1,0 +1,557 @@
+{
+  "datasets": [
+    {
+      "name": "0cc4b4e5",
+      "displayName": "Capital Strength Metrics Analysis",
+      "queryLines": [
+        "SELECT \n",
+        "    capital_adequacy_ratio as value\n",
+        "FROM workspace.fca_regulatory.gold_capital_adequacy_ratio"
+      ]
+    },
+    {
+      "name": "072fc25a",
+      "displayName": "Liquidity Ratio Insights for Analysis",
+      "queryLines": [
+        "SELECT \n",
+        "    liquidity_coverage_ratio as value\n",
+        "FROM workspace.fca_regulatory.gold_liquidity_coverage_ratio"
+      ]
+    },
+    {
+      "name": "07bfcd8c",
+      "displayName": "Suspicious Transactions by Type and Currency Analysis",
+      "queryLines": [
+        "SELECT \n",
+        "    transaction_type,\n",
+        "    SUM(CASE WHEN currency = 'GBP' THEN total_amount ELSE 0 END) as GBP,\n",
+        "    SUM(CASE WHEN currency = 'USD' THEN total_amount ELSE 0 END) as USD,\n",
+        "    SUM(CASE WHEN currency = 'EUR' THEN total_amount ELSE 0 END) as EUR\n",
+        "FROM (\n",
+        "    SELECT \n",
+        "        transaction_type,\n",
+        "        currency,\n",
+        "        SUM(amount) as total_amount\n",
+        "    FROM workspace.fca_regulatory.gold_suspicious_transactions\n",
+        "    GROUP BY transaction_type, currency\n",
+        ")\n",
+        "GROUP BY transaction_type\n",
+        "ORDER BY (GBP + USD + EUR) DESC"
+      ]
+    },
+    {
+      "name": "3cd4eb4f",
+      "displayName": "Top Customer Loan Insights for Analysis",
+      "queryLines": [
+        "SELECT \n",
+        "    customer_id,\n",
+        "    COUNT(*) as loan_count,\n",
+        "    SUM(amount) as total_loan_amount,\n",
+        "    ROUND(AVG(amount), 2) as avg_loan_amount\n",
+        "FROM workspace.fca_regulatory.gold_conduct_risk_alerts\n",
+        "GROUP BY customer_id\n",
+        "ORDER BY total_loan_amount DESC\n",
+        "LIMIT 20"
+      ]
+    },
+    {
+      "name": "a1f56d88",
+      "displayName": "Transaction Summary Insights",
+      "queryLines": [
+        "SELECT \n",
+        "    customer_status,\n",
+        "    COUNT(*) as customer_count\n",
+        "FROM workspace.fca_regulatory.silver_customer_360\n",
+        "GROUP BY customer_status"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "a48ccc5a",
+      "displayName": "FCA Regulatory & Risk Dashboard",
+      "layout": [
+        {
+          "widget": {
+            "name": "total-value",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "0cc4b4e5",
+                  "fields": [
+                    {
+                      "name": "sum(value)",
+                      "expression": "SUM(`value`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(value)"
+                }
+              },
+              "frame": {
+                "showDescription": false,
+                "title": "Capital Adequacy Ratio",
+                "showTitle": true,
+                "headerAlignment": "center"
+              },
+              "style": {
+                "fontColor": {
+                  "dark": "#18E418"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "suspicious-transactions",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "07bfcd8c",
+                  "fields": [
+                    {
+                      "name": "transaction_type",
+                      "expression": "`transaction_type`"
+                    },
+                    {
+                      "name": "sum(EUR)",
+                      "expression": "SUM(`EUR`)"
+                    },
+                    {
+                      "name": "sum(GBP)",
+                      "expression": "SUM(`GBP`)"
+                    },
+                    {
+                      "name": "sum(USD)",
+                      "expression": "SUM(`USD`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "transaction_type",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "fields": [
+                    {
+                      "fieldName": "sum(EUR)"
+                    },
+                    {
+                      "fieldName": "sum(GBP)"
+                    },
+                    {
+                      "fieldName": "sum(USD)"
+                    }
+                  ]
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Suspicious Transactions",
+                "headerAlignment": "center"
+              },
+              "style": {
+                "fontColor": {
+                  "dark": "#F36677"
+                }
+              },
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 15,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "total-liquidity-ratio",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "072fc25a",
+                  "fields": [
+                    {
+                      "name": "avg(value)",
+                      "expression": "AVG(`value`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "avg(value)"
+                }
+              },
+              "style": {
+                "fontColor": {
+                  "dark": "#16E616"
+                }
+              },
+              "frame": {
+                "title": "Total liquidity ratio",
+                "showTitle": true,
+                "headerAlignment": "center"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "vulnerable-customer-lending",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3cd4eb4f",
+                  "fields": [
+                    {
+                      "name": "customer_id",
+                      "expression": "`customer_id`"
+                    },
+                    {
+                      "name": "loan_count",
+                      "expression": "`loan_count`"
+                    },
+                    {
+                      "name": "total_loan_amount",
+                      "expression": "`total_loan_amount`"
+                    },
+                    {
+                      "name": "avg_loan_amount",
+                      "expression": "`avg_loan_amount`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "customer_id",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "imageUrlTemplate": "{{ @ }}",
+                    "imageTitleTemplate": "{{ @ }}",
+                    "imageWidth": "",
+                    "imageHeight": "",
+                    "linkUrlTemplate": "{{ @ }}",
+                    "linkTextTemplate": "{{ @ }}",
+                    "linkTitleTemplate": "{{ @ }}",
+                    "linkOpenInNewTab": true,
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 100000,
+                    "title": "customer_id",
+                    "allowSearch": false,
+                    "alignContent": "left",
+                    "allowHTML": false,
+                    "highlightLinks": false,
+                    "useMonospaceFont": false,
+                    "preserveWhitespace": false
+                  },
+                  {
+                    "fieldName": "loan_count",
+                    "numberFormat": "0",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "imageUrlTemplate": "{{ @ }}",
+                    "imageTitleTemplate": "{{ @ }}",
+                    "imageWidth": "",
+                    "imageHeight": "",
+                    "linkUrlTemplate": "{{ @ }}",
+                    "linkTextTemplate": "{{ @ }}",
+                    "linkTitleTemplate": "{{ @ }}",
+                    "linkOpenInNewTab": true,
+                    "type": "integer",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 100001,
+                    "title": "loan_count",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "highlightLinks": false,
+                    "useMonospaceFont": false,
+                    "preserveWhitespace": false
+                  },
+                  {
+                    "fieldName": "total_loan_amount",
+                    "numberFormat": "0.00",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "imageUrlTemplate": "{{ @ }}",
+                    "imageTitleTemplate": "{{ @ }}",
+                    "imageWidth": "",
+                    "imageHeight": "",
+                    "linkUrlTemplate": "{{ @ }}",
+                    "linkTextTemplate": "{{ @ }}",
+                    "linkTitleTemplate": "{{ @ }}",
+                    "linkOpenInNewTab": true,
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 100002,
+                    "title": "total_loan_amount",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "highlightLinks": false,
+                    "useMonospaceFont": false,
+                    "preserveWhitespace": false
+                  },
+                  {
+                    "fieldName": "avg_loan_amount",
+                    "numberFormat": "0.00",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "imageUrlTemplate": "{{ @ }}",
+                    "imageTitleTemplate": "{{ @ }}",
+                    "imageWidth": "",
+                    "imageHeight": "",
+                    "linkUrlTemplate": "{{ @ }}",
+                    "linkTextTemplate": "{{ @ }}",
+                    "linkTitleTemplate": "{{ @ }}",
+                    "linkOpenInNewTab": true,
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 100003,
+                    "title": "avg_loan_amount",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "highlightLinks": false,
+                    "useMonospaceFont": false,
+                    "preserveWhitespace": false
+                  }
+                ]
+              },
+              "invisibleColumns": [],
+              "allowHTMLByDefault": false,
+              "itemsPerPage": 25,
+              "paginationSize": "default",
+              "condensed": true,
+              "withRowNumber": false,
+              "frame": {
+                "showTitle": true,
+                "title": "Vulnerable Customer Lending",
+                "headerAlignment": "center"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 9,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "table-of-customer-status",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a1f56d88",
+                  "fields": [
+                    {
+                      "name": "sum(customer_count)",
+                      "expression": "SUM(`customer_count`)"
+                    },
+                    {
+                      "name": "customer_status",
+                      "expression": "`customer_status`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "sum(customer_count)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "customer_status",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "Active",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 3
+                        }
+                      },
+                      {
+                        "value": "Dormant",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 4
+                        }
+                      }
+                    ]
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "frame": {
+                "title": " Customer Status",
+                "showTitle": true,
+                "headerAlignment": "center"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 6,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    },
+    {
+      "name": "f81205e5",
+      "displayName": "Global Filters",
+      "layout": [
+        {
+          "widget": {
+            "name": "6c82d705",
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-single-select",
+              "encodings": {},
+              "frame": {
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
