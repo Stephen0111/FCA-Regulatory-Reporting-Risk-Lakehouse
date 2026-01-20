@@ -73,6 +73,8 @@ The solution is intentionally designed at a **mid–senior data engineer level**
 
 ## Data Model (Lakehouse)
 
+![FCA](Assets/FCA_Model.png)
+
 ### Bronze – Source Systems (Immutable)
 - `bronze_daily_transactions`
 - `bronze_customer_master`
@@ -117,6 +119,10 @@ The solution is intentionally designed at a **mid–senior data engineer level**
 
 ## Orchestration Strategy
 
+![FCA ](Assets/FCA_Workflow.png)
+![FCA ](Assets/FCA_job.png)
+![FCA ](Assets/FCAjob2.png)
+
 ### Daily (Databricks Workflows)
 - 01:00 – Generate simulated transactions
 - 02:00 – Bronze ingestion & Silver validation
@@ -133,6 +139,8 @@ The solution is intentionally designed at a **mid–senior data engineer level**
 
 ## Data Quality & Audit Controls
 
+![FCA Architecture](Assets/FCA_SQL.png)
+
 - **100% completeness enforced** for regulatory-critical fields
 - Daily reconciliation:
   - Transaction movements vs loan book deltas
@@ -144,6 +152,10 @@ The solution is intentionally designed at a **mid–senior data engineer level**
 ---
 
 ## Visualisation & Reporting
+![FCA Architecture](Assets/FCA_Dash2.png)
+![FCA Architecture](Assets/FCA_Dashboard.png)
+![FCA Architecture](Assets/FCA_Dash1.png)
+
 
 ### Databricks SQL Dashboards
 - Capital adequacy gauge (green / amber / red)
