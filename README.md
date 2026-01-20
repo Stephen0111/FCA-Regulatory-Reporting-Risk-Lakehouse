@@ -20,7 +20,7 @@ The solution is intentionally designed at a **mid–senior data engineer level**
 **Industry:** Financial Services  
 **Regulator:** Financial Conduct Authority (FCA)  
 **Primary Objectives:**
-- Automated regulatory reporting (FCA / Basel III)
+- Automated regulatory reporting 
 - Capital & liquidity risk monitoring
 - Credit risk exposure analysis
 - Conduct risk & AML surveillance
