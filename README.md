@@ -122,14 +122,16 @@ The solution is intentionally designed at a **mid–senior data engineer level**
 ## Orchestration Strategy
 
 ![FCA ](Assets/FCA_Workflow.png)
-![FCA ](Assets/FCA_job.png)
-![FCA ](Assets/FCA_job2.png)
+
 
 ### Daily (Databricks Workflows)
 - 01:00 – Generate simulated transactions
 - 02:00 – Bronze ingestion & Silver validation
 - 04:00 – Gold risk metrics (SLA: before 08:00)
 - Morning dashboards for risk committee
+
+![FCA ](Assets/FCA_job.png)
+![FCA ](Assets/FCA_job2.png)
 
 ### Month-End (Apache Airflow)
 - Dependency-driven close
