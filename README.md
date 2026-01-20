@@ -10,7 +10,7 @@ The solution is intentionally designed at a **mid–senior data engineer level**
 ---
 
 ## Architecture Overview
-![FCA Architecture](Assets/fca_regulatory_architecture.png)
+![FCA Architecture](Assets/FCA.png)
 
 
 ---
