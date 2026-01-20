@@ -44,6 +44,8 @@ The solution is intentionally designed at a **mid–senior data engineer level**
 - Regulatory threshold alerts (amber/red)
 
 ### Conduct & Financial Crime Surveillance
+
+
 - AML red flags:
   - Cash transactions > £10,000
   - Rapid movement across jurisdictions
@@ -121,7 +123,7 @@ The solution is intentionally designed at a **mid–senior data engineer level**
 
 ![FCA ](Assets/FCA_Workflow.png)
 ![FCA ](Assets/FCA_job.png)
-![FCA ](Assets/FCAjob2.png)
+![FCA ](Assets/FCA_job2.png)
 
 ### Daily (Databricks Workflows)
 - 01:00 – Generate simulated transactions
