@@ -157,7 +157,7 @@ The solution is intentionally designed at a **mid–senior data engineer level**
 
 ---
 
-## Why This Project Matters
+##  Project Outcomes
 
 This repository demonstrates **real-world financial data engineering**, not toy pipelines:
 - FCA-aligned governance
