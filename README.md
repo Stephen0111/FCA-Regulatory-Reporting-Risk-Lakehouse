@@ -5,7 +5,7 @@ This project implements a **realistic, FCA-aligned regulatory reporting and risk
 
 It simulates core banking transaction data and market data, processes it through a **Databricks Lakehouse architecture**, enforces **regulatory-grade data quality**, and produces **audit-ready, point-in-time regulatory metrics** and **FCA-compliant submission outputs**.
 
-The solution is intentionally designed at a **mid–senior data engineer level**, focusing on **governance, auditability, data quality, and regulatory correctness**, rather than simple ETL.
+The solution focuses on **governance, auditability, data quality, and regulatory correctness**, rather than simple ETL.
 
 ---
 
