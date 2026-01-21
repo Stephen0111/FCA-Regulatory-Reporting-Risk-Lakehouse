@@ -1,7 +1,7 @@
 # FCA Regulatory Reporting & Risk Lakehouse on Databricks  
 *A Production-Grade Financial Services Data Engineering Platform for Regulatory Compliance, Risk & Conduct Surveillance*
 
-This project implements a **realistic, FCA-aligned regulatory reporting and risk analytics platform** designed to mirror how UK financial institutions meet **Financial Conduct Authority (FCA)** and **Basel III** regulatory obligations.
+This project implements a **realistic, FCA-aligned regulatory reporting and risk analytics platform** designed to mirror how UK financial institutions meet **Financial Conduct Authority (FCA)** regulatory obligations.
 
 It simulates core banking transaction data and market data, processes it through a **Databricks Lakehouse architecture**, enforces **regulatory-grade data quality**, and produces **audit-ready, point-in-time regulatory metrics** and **FCA-compliant submission outputs**.
 
